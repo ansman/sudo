@@ -15,7 +15,8 @@
   (context "/api" []
            ;; JGET returns json encoding of the response
            (JGET "/items" [] api/get-items)
-           (JPOST "/items" [] api/add-item))
+           (JPOST "/items" [] api/add-item)
+           (JDELETE "/items/:id" [id] api/delete-item))
   ;; static files under ./public folder, prefix /static
   ;; like /static/css/style.css
   (route/files "/static")
