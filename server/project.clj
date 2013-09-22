@@ -11,13 +11,10 @@
                  [org.clojure/tools.cli "0.2.2"]
                  [compojure "1.1.5"]
                  [ring/ring-core "1.1.8"]
-
+                 [ring/ring-json "0.2.0"]
                  [org.clojure/data.json "0.2.1"]
-
-                 [http-kit "2.1.5"]
-
+                 [http-kit "2.1.11"]
                  [http-kit/dbcp "0.1.0"] ;; database access
-
                  [mysql/mysql-connector-java "5.1.21"] ;; mysql jdbc driver
 
                  ;; [org.fressian/fressian "0.6.3"]
