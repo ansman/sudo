@@ -1,25 +1,30 @@
-(ns server.handlers.api)
+(ns server.handlers.api
+  (:require [org.httpkit.dbcp :as db]))
 
-(def counter (atom 0))
-(def data (atom []))
+(def db-name (System/getProperty "db.name" "sudo_dev"))
+(def db-string (str "jdbc:mysql://localhost/" db-name))
+(println "db-string:" db-string)
 
-(defn next-id []
-  (swap! counter inc))
+(db/use-database! db-string "wrapptest" "wrapptest")
 
 (defn add [description]
-  (swap! data conj {:id (next-id) :description description}))
-
-(defn delete [id]
-  (let [pred (fn [x] (not= (:id x) id))
-        filterfunc (fn [data] (vec (filter pred data)))]
-    (swap! data filterfunc)))
+  (db/insert-record :items {:description description}))
 
 (defn list-all []
-  @data)
+  (db/query "select * from items"))
 
+(defn delete [id]
+  (db/delete-rows :items ["id = ?" id]))
+
+(defn delete-all []
+  (db/delete-rows :items ["true"]))
+
+
+(println "Deleting data" (delete-all))
 (add "collect underpants")
 (add "...")
 (add "profit!")
+
 
 (defn show-options [req]
   {:status 200
