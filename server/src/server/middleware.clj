@@ -2,7 +2,7 @@
     (:use [compojure.core :only [GET POST DELETE PUT]]
           [clojure.tools.logging :only [debug error info]]
           [server.config :as conf]
-          [clojure.data.json :only [write-str]]))
+          [clojure.data.json :as json]))
 
 (defn wrap-failsafe [handler]
   (fn [req]
@@ -32,16 +32,27 @@
       (handler req))
     handler))
 
+(defn json-request [req]
+  (let [body (:body req)]
+    (if (nil? body)
+      req
+      (assoc req :body (-> body clojure.java.io/reader json/read)))))
+
 (defn json-response [resp]
   (let [json-resp (if (and (map? resp) (contains? resp :body))
-                    (update-in resp [:body] write-str)
-                    {:body (write-str resp)})]
+                    (update-in resp [:body] json/write-str)
+                    {:body (json/write-str resp)})]
     (update-in (merge {:status 200} json-resp)
                [:headers] merge {"Content-Type"
                                  "application/json; charset=utf-8"
                                  "Access-Control-Allow-Origin" "*"})))
 
-(defn wrap-json [handler] (fn [req] (json-response (handler req))))
+(defn wrap-json [handler]
+  (fn [req]
+    (-> req
+      json-request
+      handler
+      json-response)))
 
 (defmacro JPOST [path args handler]
   `(POST ~path ~args (wrap-json ~handler)))

@@ -34,7 +34,7 @@
    })
 
 (defn add-item [req]
-  (let [jsondata (json/read (clojure.java.io/reader (:body req)))]
+  (let [jsondata (:body req)]
     {:time (System/currentTimeMillis)
      :req (assoc (merge req {:async-channel nil}) :body jsondata)
      :items (add (get jsondata "description"))
