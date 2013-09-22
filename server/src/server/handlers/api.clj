@@ -1,5 +1,4 @@
-(ns server.handlers.api
-  (:use [clojure.data.json :as json]))
+(ns server.handlers.api)
 
 (def counter (atom 0))
 (def data (atom []))

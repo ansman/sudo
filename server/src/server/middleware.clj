@@ -1,8 +1,8 @@
 (ns server.middleware
-    (:use [compojure.core :only [GET POST DELETE PUT]]
-          [clojure.tools.logging :only [debug error info]]
-          [server.config :as conf]
-          [clojure.data.json :as json]))
+  (:use [compojure.core :only [GET POST DELETE PUT]]
+        [clojure.tools.logging :only [debug error info]]
+        [server.config :as conf])
+  (:require [clojure.data.json :as json]))
 
 (defn wrap-failsafe [handler]
   (fn [req]
