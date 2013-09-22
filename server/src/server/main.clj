@@ -6,7 +6,8 @@
         ;; [org.httpkit.dbcp :only [use-database! close-database!]]
         [org.httpkit.server :only [run-server]]
         [server.routes :only [app]]
-        [clojure.tools.logging :only [info]]))
+        [clojure.tools.logging :only [info]])
+  (:require [server.database :as db]))
 
 (defn- to-int [s] (Integer/parseInt s))
 
@@ -34,5 +35,6 @@
     (when (:help options) (println banner) (System/exit 0))
     ;; config can be accessed by (cfg :key)
     (swap! app-configs merge options)
+    (db/initialize)
     (start-server)
     (info (str "server started. listen on 0.0.0.0@" (cfg :port)))))
