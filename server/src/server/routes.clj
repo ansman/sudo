@@ -14,7 +14,7 @@
   (GET "/" [] app/show-landing)
   (context "/api" []
            ;; JGET returns json encoding of the response
-           (JGET "/time" [] api/get-time))
+           (JGET "/items" [] api/get-items))
   ;; static files under ./public folder, prefix /static
   ;; like /static/css/style.css
   (route/files "/static")
