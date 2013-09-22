@@ -38,7 +38,8 @@
                     {:body (write-str resp)})]
     (update-in (merge {:status 200} json-resp)
                [:headers] merge {"Content-Type"
-                                 "application/json; charset=utf-8"})))
+                                 "application/json; charset=utf-8"
+                                 "Access-Control-Allow-Origin" "*"})))
 
 (defn wrap-json [handler] (fn [req] (json-response (handler req))))
 

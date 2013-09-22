@@ -1,5 +1,5 @@
 (ns server.routes
-    (:use [compojure.core :only [defroutes GET POST DELETE ANY context]]
+    (:use [compojure.core :only [defroutes GET POST DELETE OPTIONS ANY context]]
           (ring.middleware [keyword-params :only [wrap-keyword-params]]
                            [params :only [wrap-params]]
                            [session :only [wrap-session]])
@@ -12,6 +12,7 @@
 ;; define mapping here
 (defroutes server-routes*
   (GET "/" [] app/show-landing)
+  (OPTIONS "*" [] api/show-options)
   (context "/api" []
            ;; JGET returns json encoding of the response
            (JGET "/items" [] api/get-items)

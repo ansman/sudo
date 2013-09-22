@@ -22,6 +22,10 @@
 (add "...")
 (add "profit!")
 
+(defn show-options [req]
+  {:status 200
+   :headers {"Access-Control-Allow-Methods" "POST, GET, PUT, OPTIONS, DELETE"
+             "Access-Control-Allow-Origin" "*"}})
 
 (defn get-items [req]
   {:time (System/currentTimeMillis)
